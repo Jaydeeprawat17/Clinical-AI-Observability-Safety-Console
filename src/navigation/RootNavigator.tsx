@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 import { UploadScreen } from '../screens/UploadScreen';
 import { GenerateScreen } from '../screens/GenerateScreen';
 import { ResultsScreen } from '../screens/ResultsScreen';
+import { theme } from '../theme';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const PlaceholderScreen = ({ screenName }: { screenName: string }) => {
   return (
-    <View className="flex-1 bg-background justify-center items-center">
-      <Text className="text-on-surface text-lg">{screenName} (Coming Soon)</Text>
+    <View style={styles.placeholderContainer}>
+      <Text style={styles.placeholderText}>{screenName} (Coming Soon)</Text>
     </View>
   );
 };
+
+const StylesScreen = () => <PlaceholderScreen screenName="Styles" />;
+const ProfileScreen = () => <PlaceholderScreen screenName="Profile" />;
 
 const GalleryStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: '#0e0e13' },
+      cardStyle: { backgroundColor: theme.colors.background },
     }}
   >
     <Stack.Screen name="GenerateMain" component={GenerateScreen} />
@@ -35,30 +39,11 @@ export const RootNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: {
-          backgroundColor: 'rgba(9, 9, 15, 0.8)',
-          borderTopColor: 'rgba(76, 74, 77, 0.2)',
-          borderTopWidth: 1,
-          paddingBottom: 8,
-          paddingTop: 8,
-          height: 80,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-        },
-        tabBarActiveTintColor: '#8ff5ff',
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: '#5c5a61',
-        tabBarLabelStyle: {
-          fontSize: 10,
-          marginTop: 4,
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          letterSpacing: 1,
-        },
-        tabBarIconStyle: {
-          marginBottom: 2,
-        },
+        tabBarLabelStyle: styles.tabLabel,
+        tabBarIconStyle: styles.tabIcon,
       }}
     >
       <Tab.Screen
@@ -66,7 +51,7 @@ export const RootNavigator = () => {
         component={UploadScreen}
         options={{
           tabBarLabel: 'Create',
-          tabBarIcon: ({ color }) => <MaterialIcons name="cloud_upload" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialIcons name="add" size={24} color={color} />,
         }}
       />
 
@@ -75,13 +60,13 @@ export const RootNavigator = () => {
         component={GalleryStack}
         options={{
           tabBarLabel: 'Gallery',
-          tabBarIcon: ({ color }) => <MaterialIcons name="grid_view" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialIcons name="apps" size={24} color={color} />,
         }}
       />
 
       <Tab.Screen
         name="Styles"
-        component={() => <PlaceholderScreen screenName="Styles" />}
+        component={StylesScreen}
         options={{
           tabBarLabel: 'Styles',
           tabBarIcon: ({ color }) => <MaterialIcons name="palette" size={24} color={color} />,
@@ -90,7 +75,7 @@ export const RootNavigator = () => {
 
       <Tab.Screen
         name="Profile"
-        component={() => <PlaceholderScreen screenName="Profile" />}
+        component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => <MaterialIcons name="person" size={24} color={color} />,
@@ -99,3 +84,38 @@ export const RootNavigator = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  placeholderContainer: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: {
+    color: theme.colors.textSecondary,
+    fontSize: theme.fontSize.lg,
+  },
+  tabBar: {
+    backgroundColor: 'rgba(9, 9, 15, 0.8)',
+    borderTopColor: 'rgba(76, 74, 77, 0.2)',
+    borderTopWidth: 1,
+    paddingBottom: 8,
+    paddingTop: 8,
+    height: 80,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  tabLabel: {
+    fontSize: 10,
+    marginTop: 4,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  tabIcon: {
+    marginBottom: 2,
+  },
+});
