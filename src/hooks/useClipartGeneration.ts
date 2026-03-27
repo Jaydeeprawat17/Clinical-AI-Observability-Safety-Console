@@ -1,28 +1,34 @@
-import { useAppStore } from '../store/useAppStore'
-import { generateClipart } from '../services/api'
-import { Alert } from 'react-native'
+import { useAppStore } from '../store/useAppStore';
+import { generateClipart } from '../services/api';
+import { uriToBase64 } from '../utils/imageToBase64';
+import { Alert } from 'react-native';
 
 export const useClipartGeneration = () => {
-  const { setIsGenerating, setResults, clearResults } = useAppStore()
+  const { uploadedImage, setIsGenerating, setResults, clearResults } = useAppStore();
 
   const generate = async (prompt: string) => {
+    if (!uploadedImage) {
+      Alert.alert('Error', 'Upload an image first!');
+      return;
+    }
     if (!prompt) {
-      Alert.alert('Error', 'Please enter a description of the person in the photo')
-      return
+      Alert.alert('Error', 'Please describe the person');
+      return;
     }
 
-    clearResults()
-    setIsGenerating(true)
+    clearResults();
+    setIsGenerating(true);
 
     try {
-      const data = await generateClipart(prompt)
-      setResults(data.results)
+      const imageBase64 = await uriToBase64(uploadedImage);
+      const data = await generateClipart(prompt, imageBase64);
+      setResults(data.results);
     } catch (err: any) {
-      Alert.alert('Generation failed', err.message)
+      Alert.alert('Generation failed', err.message);
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
     }
-  }
+  };
 
-  return { generate }
-}
+  return { generate };
+};

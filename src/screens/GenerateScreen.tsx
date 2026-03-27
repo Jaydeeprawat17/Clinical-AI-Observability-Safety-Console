@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import { useAppStore } from '../store/useAppStore';
 import { useClipartGeneration } from '../hooks/useClipartGeneration';
 import { useNavigation } from '@react-navigation/native';
@@ -15,15 +22,18 @@ export default function GenerateScreen() {
       Alert.alert('Error', 'Upload an image first!');
       return;
     }
-    await generate(prompt);
+    const isGenerated = await generate(prompt);
+    if (!isGenerated) {
+      return;
+    }
     navigation.navigate('Results');
   };
 
   return (
-    <View className="flex-1 bg-zinc-900 p-6">
-      <Text className="text-2xl font-bold text-white mb-2">Describe the person</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Describe the person</Text>
       <TextInput
-        className="bg-zinc-800 text-white p-5 rounded-2xl h-32"
+        style={styles.input}
         placeholder="Young man with glasses, short black hair..."
         placeholderTextColor="#666"
         value={prompt}
@@ -33,10 +43,45 @@ export default function GenerateScreen() {
 
       <TouchableOpacity
         onPress={handleGenerate}
-        className="bg-green-500 py-6 rounded-2xl mt-12"
+        style={styles.generateButton}
+        activeOpacity={0.85}
       >
-        <Text className="text-white text-center text-2xl font-bold">Generate All 5 Styles</Text>
+        <Text style={styles.generateButtonText}>Generate All 5 Styles</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#18181b',
+    padding: 24,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#ffffff',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#27272a',
+    color: '#ffffff',
+    padding: 20,
+    borderRadius: 16,
+    height: 128,
+    textAlignVertical: 'top',
+  },
+  generateButton: {
+    backgroundColor: '#22c55e',
+    paddingVertical: 24,
+    borderRadius: 16,
+    marginTop: 48,
+  },
+  generateButtonText: {
+    color: '#ffffff',
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '700',
+  },
+});

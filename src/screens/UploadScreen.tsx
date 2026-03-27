@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Alert,
+  StyleSheet,
+} from 'react-native';
 import { useAppStore } from '../store/useAppStore';
 import { useImageUpload } from '../hooks/useImageUpload';
 import { useNavigation } from '@react-navigation/native';
@@ -18,34 +26,120 @@ export default function UploadScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-zinc-900 p-6">
-      <Text className="text-3xl font-bold text-white text-center mt-10">AI Clipart Generator</Text>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <Text style={styles.title}>AI Clipart Generator</Text>
 
       {uploadedImage ? (
-        <Image source={{ uri: uploadedImage }} className="w-full h-96 rounded-3xl mt-8" resizeMode="cover" />
+        <Image
+          source={{ uri: uploadedImage }}
+          style={styles.previewImage}
+          resizeMode="cover"
+        />
       ) : (
-        <View className="h-96 bg-zinc-800 rounded-3xl mt-8 flex items-center justify-center border-2 border-dashed border-zinc-600">
-          <Text className="text-zinc-400 text-lg">Your photo preview appears here</Text>
+        <View style={styles.previewPlaceholder}>
+          <Text style={styles.previewPlaceholderText}>
+            Your photo preview appears here
+          </Text>
         </View>
       )}
 
-      <View className="mt-8 space-y-4">
-        <TouchableOpacity onPress={takePhoto} className="bg-blue-600 py-6 rounded-2xl">
-          <Text className="text-white text-center text-xl font-semibold">📸 Take Photo</Text>
+      <View style={styles.actions}>
+        <TouchableOpacity
+          onPress={takePhoto}
+          style={[styles.button, styles.buttonPrimary]}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>📸 Take Photo</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={pickImage} className="bg-zinc-700 py-6 rounded-2xl">
-          <Text className="text-white text-center text-xl font-semibold">🖼️ Choose from Gallery</Text>
+        <TouchableOpacity
+          onPress={pickImage}
+          style={[styles.button, styles.buttonSecondary]}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>🖼️ Choose from Gallery</Text>
         </TouchableOpacity>
       </View>
 
       {uploadedImage && (
         <TouchableOpacity
           onPress={goToGenerate}
-          className="mt-10 bg-green-500 py-6 rounded-2xl"
+          style={[styles.button, styles.buttonSuccess]}
+          activeOpacity={0.85}
         >
-          <Text className="text-white text-center text-2xl font-bold">Next → Choose Styles</Text>
+          <Text style={styles.nextButtonText}>Next → Choose Styles</Text>
         </TouchableOpacity>
       )}
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#18181b',
+  },
+  contentContainer: {
+    padding: 24,
+    paddingBottom: 40,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#ffffff',
+    textAlign: 'center',
+    marginTop: 40,
+  },
+  previewImage: {
+    width: '100%',
+    height: 384,
+    borderRadius: 24,
+    marginTop: 32,
+  },
+  previewPlaceholder: {
+    width: '100%',
+    height: 384,
+    borderRadius: 24,
+    marginTop: 32,
+    backgroundColor: '#27272a',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#52525b',
+  },
+  previewPlaceholderText: {
+    color: '#a1a1aa',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  actions: {
+    marginTop: 32,
+    gap: 16,
+  },
+  button: {
+    paddingVertical: 24,
+    borderRadius: 16,
+  },
+  buttonPrimary: {
+    backgroundColor: '#2563eb',
+  },
+  buttonSecondary: {
+    backgroundColor: '#3f3f46',
+  },
+  buttonSuccess: {
+    backgroundColor: '#22c55e',
+    marginTop: 40,
+  },
+  buttonText: {
+    color: '#ffffff',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  nextButtonText: {
+    color: '#ffffff',
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '700',
+  },
+});

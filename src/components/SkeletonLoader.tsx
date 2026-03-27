@@ -1,11 +1,34 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 export default function SkeletonLoader() {
   return (
-    <View className="w-[48%] bg-zinc-800 rounded-3xl p-3 animate-pulse">
-      <View className="w-full h-64 bg-zinc-700 rounded-2xl" />
-      <View className="h-4 bg-zinc-700 rounded mt-4 w-3/4 mx-auto" />
+    <View style={styles.container}>
+      <View style={styles.image} />
+      <View style={styles.title} />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: '48%',
+    backgroundColor: '#27272a',
+    borderRadius: 24,
+    padding: 12,
+  },
+  image: {
+    width: '100%',
+    height: 256,
+    backgroundColor: '#3f3f46',
+    borderRadius: 16,
+  },
+  title: {
+    height: 16,
+    backgroundColor: '#3f3f46',
+    borderRadius: 8,
+    marginTop: 16,
+    width: '75%',
+    alignSelf: 'center',
+  },
+})
