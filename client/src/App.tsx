@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Activity, CheckCircle, AlertTriangle, RefreshCw, Play,
-  ArrowRight, Shield, Heart, Info, Code, User, FileText, Zap, LogOut
+  Activity, AlertTriangle, RefreshCw, Play,
+  Shield, Code, Zap
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
@@ -50,6 +50,8 @@ interface IncidentData {
   };
   traceId: string;
 }
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function App() {
   // Input fields
@@ -101,7 +103,7 @@ export default function App() {
       .filter(Boolean);
 
     try {
-      const response = await fetch('http://localhost:3000/api/generate-summary', {
+      const response = await fetch(`${API_URL}/api/generate-summary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +165,7 @@ export default function App() {
     setPatchSuccessToast(null);
 
     try {
-      const response = await fetch('http://localhost:3000/api/execute-patch', {
+      const response = await fetch(`${API_URL}/api/execute-patch`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -206,7 +208,7 @@ export default function App() {
 
   const handleReset = async () => {
     try {
-      await fetch('http://localhost:3000/api/reset', { method: 'POST' });
+      await fetch(`${API_URL}/api/reset`, { method: 'POST' });
       setActivePrompt('You are a clinical assistant. Summarize the patient discharge summary.');
       setRequestCount(0);
       setLastSummary(null);
