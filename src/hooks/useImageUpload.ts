@@ -33,7 +33,7 @@ export const useImageUpload = () => {
     const manipResult = await ImageManipulator.manipulateAsync(
       uri,
       [{ resize: { width: 1024 } }],
-      { compress: 0.7, format: ImageManipulator.SaveFormat.PNG }
+      { compress: 0.6, format: ImageManipulator.SaveFormat.JPEG }
     )
     setUploadedImage(manipResult.uri)
   }

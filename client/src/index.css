@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0b10;
+  --bg-secondary: #10121a;
+  --bg-card: #151824;
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-focus: #4f46e5;
+  /* Indigo */
+
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+
+  --accent-blue: #3b82f6;
+  --accent-indigo: #4f46e5;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-amber: #f59e0b;
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout container */
+.app-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+.app-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.25rem;
+}
+
+.brand-title {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.badge-live {
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--accent-blue);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Status panel indicators */
+.status-stat {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s ease;
+}
+
+.status-stat:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Three-Zone Layout */
+.panels-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1.75rem;
+}
+
+@media (max-width: 1200px) {
+  .panels-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card design: Clean, flat, structured */
+.panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  transition: border-color 0.2s ease;
+}
+
+.panel-card:hover {
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Inputs and Forms */
+.form-input,
+.form-textarea {
+  background: #0d0f17;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* Button: Clean monochrome hover effects */
+.btn-generate {
+  background: var(--accent-indigo);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-generate:hover:not(:disabled) {
+  background: #5a52e6;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.btn-generate:disabled {
+  background: #252836;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Clinical discharge document output: Styled like a real printed document paper sheet */
+.clinical-sheet {
+  background: #ffffff;
+  color: #1e293b;
+  /* border-left: 4px solid var(--accent-emerald); */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+/* Clinical sheet in error state */
+.clinical-sheet.error-sheet {
+  background: #0f111a;
+  color: #fda4af;
+  border-left-color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+/* Live Telemetry Feed & Table */
+.alerts-feed-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alerts-feed-empty {
+  color: var(--text-muted);
+  border: 1px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+/* Custom scrollbars */
+.clinical-sheet::-webkit-scrollbar,
+.alerts-feed-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.clinical-sheet::-webkit-scrollbar-thumb,
+.alerts-feed-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+.clinical-sheet::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* SRE Agent Intervention console */
+.agent-console-box {
+  background: #0f111a;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+/* Git Diff boxes */
+.diff-box-red {
+  background: rgba(244, 63, 94, 0.04);
+  border: 1px solid rgba(244, 63, 94, 0.15);
+  color: #fca5a5;
+  font-family: var(--font-mono);
+}
+
+.diff-box-green {
+  background: rgba(16, 185, 129, 0.04);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  font-family: var(--font-mono);
+}
+
+/* Toast alert */
+.toast-success {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}

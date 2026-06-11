@@ -1,0 +1,28 @@
+{
+  "name": "clinical-observability-server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@arizeai/phoenix-otel": "^0.2.1",
+    "@google/genai": "^2.8.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/instrumentation": "^0.52.0",
+    "@opentelemetry/instrumentation-express": "^0.41.0",
+    "@opentelemetry/instrumentation-http": "^0.52.0",
+    "@opentelemetry/sdk-node": "^0.52.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  }
+}

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  Animated,
 } from 'react-native';
 import { useAppStore } from '../store/useAppStore';
 import * as Sharing from 'expo-sharing';
@@ -53,12 +54,12 @@ export default function ResultsScreen() {
       <Text style={styles.title}>Your AI Clipart Styles</Text>
 
       {/* Before / After section (bonus) */}
-      {uploadedImage && (
+      {uploadedImage && results.length > 0 && results[0]?.image && (
         <View style={styles.beforeAfterCard}>
           <Text style={styles.beforeAfterLabel}>Original vs Clipart</Text>
           <View style={styles.beforeAfterRow}>
             <Image source={{ uri: uploadedImage }} style={styles.beforeAfterImage} />
-            <Image source={{ uri: results[0]?.image }} style={styles.beforeAfterImage} />
+            <Image source={{ uri: results[0].image }} style={styles.beforeAfterImage} />
           </View>
         </View>
       )}
@@ -66,11 +67,17 @@ export default function ResultsScreen() {
       <View style={styles.grid}>
         {results.map((result, index) => (
           <View key={index} style={styles.card}>
-            <Image
-              source={{ uri: result.image }}
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
+            {result.image ? (
+              <Image
+                source={{ uri: result.image }}
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={[styles.cardImage, styles.errorImageContainer]}>
+                <Text style={styles.errorImageText}>Failed to generate</Text>
+              </View>
+            )}
             <Text style={styles.cardTitle}>{result.style}</Text>
 
             <View style={styles.cardActions}>
@@ -97,11 +104,30 @@ export default function ResultsScreen() {
 }
 
 function LocalSkeletonLoader() {
+  const opacity = React.useRef(new Animated.Value(0.3)).current;
+
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 0.8,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 0.3,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [opacity]);
+
   return (
-    <View style={styles.skeletonContainer}>
+    <Animated.View style={[styles.skeletonContainer, { opacity }]}>
       <View style={styles.skeletonImage} />
       <View style={styles.skeletonTitle} />
-    </View>
+    </Animated.View>
   );
 }
 
@@ -207,5 +233,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     width: '75%',
     alignSelf: 'center',
+  },
+  errorImageContainer: {
+    backgroundColor: '#3f3f46',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorImageText: {
+    color: '#a1a1aa',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

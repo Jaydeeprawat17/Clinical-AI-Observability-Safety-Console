@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
-import { UploadScreen } from '../screens/UploadScreen';
-import { GenerateScreen } from '../screens/GenerateScreen';
-import { ResultsScreen } from '../screens/ResultsScreen';
+import UploadScreen from '../screens/UploadScreen';
+import GenerateScreen from '../screens/GenerateScreen';
+import ResultsScreen from '../screens/ResultsScreen';
 import { theme } from '../theme';
 
 const Stack = createNativeStackNavigator();
@@ -26,7 +26,7 @@ const GalleryStack = () => (
   <Stack.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: theme.colors.background },
+      contentStyle: { backgroundColor: theme.colors.background },
     }}
   >
     <Stack.Screen name="GenerateMain" component={GenerateScreen} />
